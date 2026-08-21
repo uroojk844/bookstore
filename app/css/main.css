@@ -1,5 +1,22 @@
 @import "tailwindcss";
 
+@theme {
+  --default-font-family: "Source sans 3";
+  --font-garamond: "EB Garamond";
+
+  --color-maroon: #af2b3e;
+  --color-border: #e5e7eb;
+}
+
+@utility app-container {
+  @apply max-w-275 lg:px-6 mx-auto;
+}
+
 body {
-  font-family: Roboto, sans-serif;
+  font-family: "Source sans 3", sans-serif;
+  background-color: var(--color-amber-50);
+}
+
+.router-link-exact-active {
+  color: var(--color-maroon);
 }

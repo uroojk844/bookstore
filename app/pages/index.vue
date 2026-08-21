@@ -1,0 +1,4 @@
+<template>
+  <DiscoverCatalog />
+  <BookResult />
+</template>
