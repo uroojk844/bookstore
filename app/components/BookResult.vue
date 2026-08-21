@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import type { IBook } from "~/interfaces/books";
-const { results = [] } = defineProps<{
+const { results = [], showTitle = true } = defineProps<{
   results?: IBook[];
+  showTitle?: boolean;
 }>();
 </script>
 
 <template>
   <section class="app-container mb-8">
     <div
+      v-if="showTitle"
       class="flex mb-6 w-full font-garamond text-2xl font-semibold h-12 border-b-2 border-border"
     >
       Search Results

@@ -16,19 +16,21 @@ function handleSubmit() {
       Explore our extensive archives of rare, scholary, and classic literature.
     </p>
 
-    <form
-      @submit.prevent="handleSubmit"
-      class="flex items-center gap-4 w-full max-w-xl"
-    >
-      <input
-        v-model="query"
-        type="search"
-        class="border border-border px-4 h-10 max-w-lg flex-1 outline-transparent"
-        placeholder="Search books"
-        required
-      />
+    <ClientOnly>
+      <form
+        @submit.prevent="handleSubmit"
+        class="flex items-center gap-4 w-full max-w-xl"
+      >
+        <input
+          v-model="query"
+          type="search"
+          class="border border-border px-4 h-10 max-w-lg flex-1 outline-transparent"
+          placeholder="Search books"
+          required
+        />
 
-      <AppButton type="submit">Search</AppButton>
-    </form>
+        <AppButton type="submit">Search</AppButton>
+      </form>
+    </ClientOnly>
   </section>
 </template>

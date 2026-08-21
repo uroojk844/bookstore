@@ -1,24 +1,27 @@
 <script setup lang="ts">
-import App from "~/app.vue";
 import type { IBook } from "~/interfaces/books";
+import { shortlist } from "~/composables/use-shortlisted-books";
 
 const route = useRoute();
+
 const { pending, data: book } = useFetch<IBook>(
   computed(() => "/api/book/" + route.params.id),
 );
 
-
+function handleShortlist() {
+  if (book.value) shortlist(book.value);
+}
 </script>
 
 <template>
   <Loading v-if="pending" />
-  <section v-else class="app-container py-12 flex items-start gap-8">
+  <section v-else class="app-container py-12 flex flex-wrap items-start gap-8">
     <img
       :src="book?.volumeInfo.imageLinks.medium"
       :alt="book?.volumeInfo.title"
-      class="w-100"
+      class="w-100 basis-100"
     />
-    <div class="grid gap-4">
+    <div class="grid gap-4 basis-100 flex-1">
       <ul class="flex gap-1 items-center flex-wrap">
         <li
           v-for="tag in book?.volumeInfo.categories?.at(0)?.split('/')"
@@ -34,9 +37,12 @@ const { pending, data: book } = useFetch<IBook>(
       >
         By {{ book?.volumeInfo.authors?.join(",") }}
       </p>
-      <AppButton @click="handleShortlist">
-        <Icon name="uil:bookmark" /> <span>add to shortlist</span>
-      </AppButton>
+
+      <ClientOnly>
+        <AppButton @click="handleShortlist">
+          <Icon name="uil:bookmark" /> <span>add to shortlist</span>
+        </AppButton>
+      </ClientOnly>
 
       <hr class="border-border" />
 
@@ -47,18 +53,21 @@ const { pending, data: book } = useFetch<IBook>(
       <h3 class="uppercase">biliographic details</h3>
 
       <table class="w-full">
-        <tr>
-          <td>publisher</td>
-          <td>{{ book?.volumeInfo.publisher }}</td>
-        </tr>
-        <tr>
-          <td>publisher year</td>
-          <td>{{ book?.volumeInfo.publishedDate }}</td>
-        </tr>
-        <tr>
-          <td>page count</td>
-          <td>{{ book?.volumeInfo.pageCount }}</td>
-        </tr>
+        <tbody>
+
+          <tr>
+            <td>publisher</td>
+            <td>{{ book?.volumeInfo.publisher }}</td>
+          </tr>
+          <tr>
+            <td>publisher year</td>
+            <td>{{ book?.volumeInfo.publishedDate }}</td>
+          </tr>
+          <tr>
+            <td>page count</td>
+            <td>{{ book?.volumeInfo.pageCount }}</td>
+          </tr>
+        </tbody>
       </table>
     </div>
   </section>

@@ -1,11 +1,7 @@
 <script setup="ts">
-const query = ref("");
-const { pending, data, execute } = useFetch("/", {
-  query: computed(() => query.value),
-});
+import { books } from "~/composables/use-shortlisted-books";
 </script>
 
 <template>
-  <DiscoverCatalog @search="(q) => (query = q)" />
-  <BookResult :result="data" />
+  <BookResult :result="books" :show-title="false" class="py-12" />
 </template>

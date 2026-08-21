@@ -6,6 +6,7 @@ const { pending, data, execute } = useFetch<ISearchResult>("/api/search", {
   query: {
     q: computed(() => query.value),
   },
+  key: query.value,
   immediate: false,
   watch: false,
 });
