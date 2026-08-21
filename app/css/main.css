@@ -9,7 +9,7 @@
 }
 
 @utility app-container {
-  @apply max-w-275 lg:px-6 mx-auto;
+  @apply max-w-275 max-lg:px-6 mx-auto;
 }
 
 body {
