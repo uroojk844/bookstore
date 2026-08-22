@@ -1,6 +1,6 @@
 <template>
   <NavBar />
-  <NuxtPage />
+  <NuxtPage :keepalive="true" />
   <AppFooter />
 </template>
 

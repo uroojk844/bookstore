@@ -7,7 +7,7 @@ const { pending, data, execute } = useFetch<ISearchResult>("/api/search", {
   query: {
     q: computed(() => query.value),
   },
-  key: computed(() => "search-result+" + query.value),
+  key: computed(() => "search-result-" + query.value),
   immediate: false,
   watch: false,
   getCachedData(key, nuxtApp) {
