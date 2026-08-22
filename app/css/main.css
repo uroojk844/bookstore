@@ -4,19 +4,47 @@
   --default-font-family: "Source sans 3";
   --font-garamond: "EB Garamond";
 
+  --color-bg: var(--color-amber-50);
+  --color-subtitle: var(--color-gray-500);
   --color-maroon: #af2b3e;
   --color-border: #e5e7eb;
 }
 
 @utility app-container {
-  @apply max-w-275 max-lg:px-6 mx-auto;
+  @apply max-w-275 max-lg:px-6 mx-auto w-full;
+}
+
+@utility mobile-nav {
+  @apply absolute bg-bg top-16 left-0 hidden flex-col gap-4 h-dvh w-full p-4;
+
+  &.open {
+    @apply flex;
+  }
+}
+
+html {
+  scrollbar-gutter: stable;
 }
 
 body {
   font-family: "Source sans 3", sans-serif;
   background-color: var(--color-amber-50);
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+
+  &::-webkit-scrollbar {
+    @apply bg-bg w-2;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    @apply bg-maroon;
+  }
 }
 
 .router-link-exact-active {
   color: var(--color-maroon);
+}
+
+a {
+  @apply outline-maroon outline-offset-2;
 }

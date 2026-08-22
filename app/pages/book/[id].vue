@@ -1,15 +1,24 @@
 <script setup lang="ts">
 import type { IBook } from "~/interfaces/books";
-import { shortlist } from "~/composables/use-shortlisted-books";
 
 const route = useRoute();
+const id = computed(() => route.params.id as string);
 
-const { pending, data: book } = useFetch<IBook>(
-  computed(() => "/api/book/" + route.params.id),
-);
+const { shortlist, checkSaved, remove } = useSavedBooks();
+const isSaved = computed(() => checkSaved(id.value));
 
-function handleShortlist() {
-  if (book.value) shortlist(book.value);
+const { pending, data: book } = useFetch<IBook>(() => "/api/book/" + id.value, {
+  key: computed(() => "book-" + id.value),
+  getCachedData(key, nuxtApp) {
+    return (
+      nuxtApp.payload.data[key] || nuxtApp.static.data[key] || isSaved.value
+    );
+  },
+});
+
+function toggleSave() {
+  if (book.value && !isSaved.value) shortlist(book.value);
+  else remove(id.value);
 }
 </script>
 
@@ -17,11 +26,11 @@ function handleShortlist() {
   <Loading v-if="pending" />
   <section v-else class="app-container py-12 flex flex-wrap items-start gap-8">
     <img
-      :src="book?.volumeInfo.imageLinks.medium"
+      :src="book?.volumeInfo.imageLinks.thumbnail"
       :alt="book?.volumeInfo.title"
-      class="w-100 basis-100"
+      class="w-100 basis-100 object-center object-cover"
     />
-    <div class="grid gap-4 basis-100 flex-1">
+    <div class="grid gap-4 basis-100 flex-1 justify-items-start">
       <ul class="flex gap-1 items-center flex-wrap">
         <li
           v-for="tag in book?.volumeInfo.categories?.at(0)?.split('/')"
@@ -39,8 +48,16 @@ function handleShortlist() {
       </p>
 
       <ClientOnly>
-        <AppButton @click="handleShortlist">
-          <Icon name="uil:bookmark" /> <span>add to shortlist</span>
+        <AppButton @click="toggleSave">
+          <Icon
+            :name="
+              isSaved
+                ? 'material-symbols:bookmark-heart-rounded'
+                : 'uil:bookmark'
+            "
+          />
+          <span v-if="isSaved"> remove from shortlist</span>
+          <span v-else> add to shortlist</span>
         </AppButton>
       </ClientOnly>
 
@@ -54,7 +71,6 @@ function handleShortlist() {
 
       <table class="w-full">
         <tbody>
-
           <tr>
             <td>publisher</td>
             <td>{{ book?.volumeInfo.publisher }}</td>
@@ -90,6 +106,10 @@ table {
 
     &:first-child {
       @apply uppercase;
+    }
+
+    &:last-child {
+      @apply text-right;
     }
   }
 }

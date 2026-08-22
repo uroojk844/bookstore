@@ -4,6 +4,15 @@ const { results = [], showTitle = true } = defineProps<{
   results?: IBook[];
   showTitle?: boolean;
 }>();
+
+const searchHints = ["Harry potter", "Steave Jobs", "Prophet Muhammad"];
+const currentHint = ref(0);
+
+onMounted(() => {
+  setInterval(() => {
+    currentHint.value = (currentHint.value + 1) % searchHints.length;
+  }, 5000);
+});
 </script>
 
 <template>
@@ -21,8 +30,8 @@ const { results = [], showTitle = true } = defineProps<{
     >
       <BookCard v-for="book in results" :book :key="book.id" />
     </section>
-    <div v-else class="text-center text-gray-600 py-12">
-      Nothing to show here.
+    <div v-else class="text-center text-subtitle py-4">
+      Search <q>{{ searchHints[currentHint] }}</q>
     </div>
   </section>
 </template>

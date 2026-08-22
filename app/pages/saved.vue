@@ -1,7 +1,7 @@
 <script setup="ts">
-import { books } from "~/composables/use-shortlisted-books";
+const { getBooks } = useSavedBooks();
 </script>
 
 <template>
-  <BookResult :result="books" :show-title="false" class="py-12" />
+  <BookResult :results="getBooks" :show-title="false" class="py-12" />
 </template>
