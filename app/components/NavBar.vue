@@ -23,10 +23,22 @@ const isOpen = ref(false);
 function toggleNav() {
   isOpen.value = !isOpen.value;
 }
+
+const route = useRoute();
+
+watch(
+  () => route.path,
+  () => {
+    isOpen.value = false;
+  },
+);
 </script>
 
 <template>
-  <nav class="bg-amber-50 p-4 flex gap-6 items-center border-b-2 border-border">
+  <nav
+    class="z-50 bg-amber-50 p-4 flex gap-6 items-center border-b-2 border-border"
+    :class="{ open: isOpen }"
+  >
     <span
       @click="$router.push({ path: '/' })"
       class="mr-auto text-2xl sm:text-3xl font-garamond font-bold cursor-pointer"
@@ -38,14 +50,20 @@ function toggleNav() {
         v-for="link in links"
         :href="link.path"
         :key="link.id"
-        class="uppercase font-medium hover:text-maroon"
+        class="uppercase font-medium text-lg hover:text-maroon max-sm:first:mt-auto"
       >
         {{ link.label }}
       </NuxtLink>
-      <AppButton class="mt-auto ml-auto">Sign In</AppButton>
+      <AppButton class="mt-auto sm:ml-auto">Sign In</AppButton>
     </div>
     <AppButton class="sm:hidden" @click="toggleNav">
       <Icon name="uil:bars" />
     </AppButton>
   </nav>
 </template>
+
+<style>
+body:has(nav.open) {
+  overflow: hidden;
+}
+</style>

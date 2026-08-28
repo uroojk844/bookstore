@@ -48,16 +48,20 @@ function toggleSave() {
       </p>
 
       <ClientOnly>
-        <AppButton @click="toggleSave">
+        <AppButton
+          @click="toggleSave"
+          :variant="isSaved ? 'filled' : 'outlined'"
+        >
           <Icon
             :name="
               isSaved
                 ? 'material-symbols:bookmark-heart-rounded'
-                : 'uil:bookmark'
+                : 'material-symbols:bookmark-outline'
             "
+            size="24"
           />
-          <span v-if="isSaved"> remove from shortlist</span>
-          <span v-else> add to shortlist</span>
+          <span v-if="isSaved"> remove shortlist</span>
+          <span v-else> shortlist</span>
         </AppButton>
       </ClientOnly>
 

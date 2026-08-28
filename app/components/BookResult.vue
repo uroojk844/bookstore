@@ -8,10 +8,16 @@ const { results = [], showTitle = true } = defineProps<{
 const searchHints = ["Harry potter", "Steave Jobs", "Prophet Muhammad"];
 const currentHint = ref(0);
 
+let c: ReturnType<typeof setInterval>;
+
 onMounted(() => {
-  setInterval(() => {
+  c = setInterval(() => {
     currentHint.value = (currentHint.value + 1) % searchHints.length;
   }, 5000);
+});
+
+onUnmounted(() => {
+  clearTimeout(c);
 });
 </script>
 
@@ -30,8 +36,12 @@ onMounted(() => {
     >
       <BookCard v-for="book in results" :book :key="book.id" />
     </section>
-    <div v-else class="text-center text-subtitle py-4">
-      Search <q>{{ searchHints[currentHint] }}</q>
-    </div>
+    <template v-else>
+      <slot>
+        <div class="text-center text-subtitle py-4">
+          Search <q>{{ searchHints[currentHint] }}</q>
+        </div>
+      </slot>
+    </template>
   </section>
 </template>
