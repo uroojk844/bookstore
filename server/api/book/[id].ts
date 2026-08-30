@@ -1,5 +1,3 @@
-import { error } from "node:console";
-
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
   const id = getRouterParam(event, "id");

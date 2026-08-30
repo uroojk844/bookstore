@@ -19,6 +19,8 @@ async function handleSearch(q: string) {
   query.value = q;
   await execute();
 }
+
+onMounted(execute);
 </script>
 
 <template>

@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
     query: {
       q: query,
       key: config.googleBooksApiKey,
-      maxResults: 7,
+      maxResults: 10,
       fields:
         "totalItems,items(id,volumeInfo(title,authors,publishedDate,imageLinks))",
     },
